@@ -19,6 +19,11 @@
     [self.sketchView clear];
 }
 
+- (IBAction)redraw:(id)sender
+{
+    [self.sketchView setNeedsDisplayInRect:self.sketchView.bounds];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.

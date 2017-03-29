@@ -16,10 +16,9 @@
 @property (nonatomic) CGRect lineBounds;
 
 - (void) addPointForTouch:(UITouch *) touch type:(SFSketchPointType) type;
-- (void) addPointsForPredictedTouches: (NSArray *) touches;
-- (void) addPointsForCoalescedTouches: (NSArray *) touches;
+- (void) removePointsForType:(SFSketchPointType) type;
 
-- (CGRect) boundForLatestUpdate;
+- (CGRect) boundsForLastUpdate;
 - (void) drawInContext: (CGContextRef) context;
 
 @end

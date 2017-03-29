@@ -15,7 +15,6 @@ typedef enum : NSUInteger {
 
 @interface SFSketchPoint : NSObject
 
-@property (nonatomic) NSUInteger sequenceIndex;
 @property (nonatomic) SFSketchPointType type;
 @property (nonatomic) CGPoint location;
 @property (nonatomic) CGPoint preciseLocation;
@@ -23,7 +22,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) CGFloat altitudeAngle;
 @property (nonatomic) CGFloat azimuthAngle;
 
-- (instancetype)initWithTouch:(UITouch *) touch sequenceIndex:(NSUInteger) sequenceIndex type:(SFSketchPointType) type;
+- (instancetype)initWithTouch:(UITouch *) touch type:(SFSketchPointType) type;
 
 - (CGPoint) locationPointUsingPreciseLocation: (BOOL) usingPreciseLocation;
 

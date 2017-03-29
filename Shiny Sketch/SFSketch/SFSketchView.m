@@ -12,6 +12,7 @@
 @interface SFSketchView ()
 
 @property (strong) NSMutableArray *lines;
+@property (strong) SFSketchLine *currentLine;
 @property (nonatomic) CGContextRef imageContext;
 @property (nonatomic) CGImageRef image;
 
@@ -27,12 +28,6 @@
     }
     return self;
 }
-
-- (SFSketchLine *) currentLine
-{
-    return [self.lines lastObject];
-}
-
 
 - (CGContextRef)imageContext
 {
@@ -74,40 +69,41 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    SFSketchLine *currentLine = [SFSketchLine new];
-    [self.lines addObject:currentLine];
+    self.currentLine = [SFSketchLine new];
+    [self.lines addObject:self.currentLine];
 
     for (UITouch *touch in touches) {
-        [currentLine addPointForTouch:touch type:SFSketchPointTypeStandard];
-
-        [currentLine addPointsForPredictedTouches:[event predictedTouchesForTouch:touch]];
-        [currentLine addPointsForCoalescedTouches:[event coalescedTouchesForTouch:touch]];
-
+        [self.currentLine addPointForTouch:touch type:SFSketchPointTypeStandard];
     }
     
-    [self setNeedsDisplayInRect:[currentLine boundForLatestUpdate]];
+    [self setNeedsDisplayInRect:[self.currentLine boundsForLastUpdate]];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    SFSketchLine *currentLine = [self currentLine];
+    [self.currentLine removePointsForType:SFSketchPointTypePredicted];
 
     for (UITouch *touch in touches) {
-        [currentLine addPointForTouch:touch type:SFSketchPointTypeStandard];
+
+        [self.currentLine addPointForTouch:touch type:SFSketchPointTypeStandard];
         
-        [currentLine addPointsForPredictedTouches:[event predictedTouchesForTouch:touch]];
-        [currentLine addPointsForCoalescedTouches:[event coalescedTouchesForTouch:touch]];
+        UITouch *predictedTouch = [[event predictedTouchesForTouch:touch] firstObject];
+        if (predictedTouch) {
+            [self.currentLine addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
+        }
     }
 
-    [self setNeedsDisplayInRect:[currentLine boundForLatestUpdate]];
+    [self setNeedsDisplayInRect:[self.currentLine boundsForLastUpdate]];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    SFSketchLine *currentLine = [self currentLine];
-    [currentLine drawInContext:_imageContext];
-    CFRelease(_image);
-    _image = nil;
+    [self.currentLine drawInContext:_imageContext];
+    self.currentLine = nil;
+    if (_image) {
+        CFRelease(_image);
+        _image = nil;        
+    }
 }
 
 #pragma mark - Draw
@@ -124,12 +120,14 @@
     }
     CGContextDrawImage(context, self.bounds, _image);
     
-    SFSketchLine *currentLine = [self currentLine];
-    [currentLine drawInContext:context];
+    //[[UIColor redColor] setStroke];
+    //[[UIBezierPath bezierPathWithRect:rect] stroke];
 
-    [[UIColor redColor] setStroke];
-    [[UIBezierPath bezierPathWithRect:rect] stroke];
     
+    [self.currentLine drawInContext:context];
+
+    //[[UIColor redColor] setStroke];
+    //[[UIBezierPath bezierPathWithRect:currentLine.lineBounds] stroke];
 }
 
 @end

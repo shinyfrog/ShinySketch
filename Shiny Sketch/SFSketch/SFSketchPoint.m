@@ -16,13 +16,12 @@
 
 @implementation SFSketchPoint
 
-- (instancetype)initWithTouch:(UITouch *) touch sequenceIndex:(NSUInteger) sequenceIndex type:(SFSketchPointType) type;
+- (instancetype)initWithTouch:(UITouch *) touch type:(SFSketchPointType) type;
 {
     self = [super init];
     if (self) {
         UIView *view = touch.view;
         _type = type;
-        _sequenceIndex = sequenceIndex;
         _location = [touch locationInView:view];
         _preciseLocation = [touch preciseLocationInView:view];
         _force = (touch.type == UITouchTypeStylus || touch.force > 0) ? touch.force : 1;

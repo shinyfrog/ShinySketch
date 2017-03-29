@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-593" y="138"/>
         </scene>
-        <!--Title-->
+        <!--Drawy-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -50,12 +51,19 @@
                             <constraint firstItem="4mK-Zu-FS4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="z2c-5U-f7X"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="CPk-Zi-Pqe">
-                        <barButtonItem key="rightBarButtonItem" title="Clear" id="MLO-7D-f7a">
-                            <connections>
-                                <action selector="clear:" destination="BYZ-38-t0r" id="tty-Ai-o2N"/>
-                            </connections>
-                        </barButtonItem>
+                    <navigationItem key="navigationItem" title="Drawy" id="CPk-Zi-Pqe">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Clear" id="MLO-7D-f7a">
+                                <connections>
+                                    <action selector="clear:" destination="BYZ-38-t0r" id="tty-Ai-o2N"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Redraw" id="LGT-xm-8gJ">
+                                <connections>
+                                    <action selector="redraw:" destination="BYZ-38-t0r" id="tdz-IP-JbZ"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>

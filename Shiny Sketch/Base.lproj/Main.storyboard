@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UrP-n3-n2J">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UrP-n3-n2J">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -52,6 +52,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Drawy" id="CPk-Zi-Pqe">
+                        <leftBarButtonItems>
+                            <barButtonItem title="  -  " id="yd1-w7-9vn">
+                                <connections>
+                                    <action selector="decreaseTipSize:" destination="BYZ-38-t0r" id="TeE-Jg-V43"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="  +  " id="GX0-hX-yiQ">
+                                <connections>
+                                    <action selector="increaseTipSize:" destination="BYZ-38-t0r" id="PjC-a8-eBS"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="Clear" id="MLO-7D-f7a">
                                 <connections>

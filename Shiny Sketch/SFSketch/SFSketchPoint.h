@@ -6,7 +6,8 @@
 //  Copyright © 2017 Shiny Frog. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import UIKit;
+@import Foundation;
 
 typedef enum : NSUInteger {
     SFSketchPointTypeStandard,

@@ -6,8 +6,6 @@
 //  Copyright © 2017 Shiny Frog. All rights reserved.
 //
 
-@import UIKit;
-
 #import "SFSketchPoint.h"
 
 @interface SFSketchPoint ()

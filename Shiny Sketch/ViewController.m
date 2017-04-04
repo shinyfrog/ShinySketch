@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "SFSketchPenTool.h"
+#import "SFSketchFountainPenTool.h"
 
 @interface ViewController ()
 
@@ -24,9 +26,28 @@
     [self.sketchView setNeedsDisplayInRect:self.sketchView.bounds];
 }
 
+- (IBAction)increaseTipSize:(id)sender
+{
+    SFSketchPenTool *tool = self.sketchView.currentTool;
+    tool.tipSize++;
+}
+
+- (IBAction)decreaseTipSize:(id)sender
+{
+    SFSketchPenTool *tool = self.sketchView.currentTool;
+    if (tool.tipSize > 2) {
+        tool.tipSize--;
+    }
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    //SFSketchFountainPenTool *tool = [SFSketchFountainPenTool new];
+    SFSketchPenTool *tool = [SFSketchPenTool new];
+
+    self.sketchView.currentTool = tool;
 }
 
 
@@ -34,6 +55,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

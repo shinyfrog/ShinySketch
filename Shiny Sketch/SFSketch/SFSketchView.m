@@ -8,13 +8,16 @@
 
 #import "SFSketchView.h"
 #import "SFSketchLine.h"
+#import "SFSketchStroke.h"
 
 @interface SFSketchView ()
 
-@property (strong) NSMutableArray *lines;
-@property (strong) SFSketchLine *currentLine;
 @property (nonatomic) CGContextRef imageContext;
 @property (nonatomic) CGImageRef image;
+
+@property (strong) NSMutableArray *strokes;
+@property (strong) SFSketchStroke *currentStroke;
+
 
 @end
 
@@ -24,7 +27,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.lines = [NSMutableArray array];
+        self.strokes = [NSMutableArray array];
     }
     return self;
 }
@@ -51,7 +54,7 @@
 
 - (void) clear
 {
-    [self.lines removeAllObjects];
+    [self.strokes removeAllObjects];
     
     CGSize imageContextSize = CGSizeMake(CGBitmapContextGetWidth(self.imageContext), CGBitmapContextGetHeight(self.imageContext));
     CGContextClearRect(self.imageContext, CGRectMake(0, 0, imageContextSize.width, imageContextSize.height));
@@ -68,42 +71,66 @@
 #pragma mark - Touch event handlers
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    self.currentLine = [SFSketchLine new];
-    [self.lines addObject:self.currentLine];
+{    
+    [super touchesBegan:touches withEvent:event];
+    
+    self.currentStroke = [SFSketchStroke new];
+    self.currentStroke.line = [SFSketchLine new];
+    self.currentStroke.tool = self.currentTool;
+    
+    [self.strokes addObject:self.currentStroke];
 
     for (UITouch *touch in touches) {
-        [self.currentLine addPointForTouch:touch type:SFSketchPointTypeStandard];
+        [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
     }
     
-    [self setNeedsDisplayInRect:[self.currentLine boundsForLastUpdate]];
+    CGRect rectToRedraw = [self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line];
+    [self setNeedsDisplayInRect:rectToRedraw];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self.currentLine removePointsForType:SFSketchPointTypePredicted];
+    [super touchesMoved:touches withEvent:event];
+    
+    [self.currentStroke.line removePointsForType:SFSketchPointTypePredicted];
 
     for (UITouch *touch in touches) {
 
-        [self.currentLine addPointForTouch:touch type:SFSketchPointTypeStandard];
+        [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
         
         UITouch *predictedTouch = [[event predictedTouchesForTouch:touch] firstObject];
         if (predictedTouch) {
-            [self.currentLine addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
+            [self.currentStroke.line addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
         }
     }
 
-    [self setNeedsDisplayInRect:[self.currentLine boundsForLastUpdate]];
+    CGRect rectToRedraw = [self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line];
+    [self setNeedsDisplayInRect:rectToRedraw];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self.currentLine drawInContext:_imageContext];
-    self.currentLine = nil;
+    [super touchesEnded:touches withEvent:event];
+    
+    [self.currentStroke.tool drawLine:self.currentStroke.line inContext:_imageContext];
+    
+    self.currentStroke.line = nil;
     if (_image) {
         CFRelease(_image);
         _image = nil;        
     }
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesCancelled:touches withEvent:event];
+    
+    CGRect boundToRefresh = [self.currentTool boundsForLine:self.currentStroke.line];
+
+    [self.strokes removeObject:self.currentStroke];
+    self.currentStroke = nil;
+    
+    [self setNeedsDisplayInRect:boundToRefresh];
 }
 
 #pragma mark - Draw
@@ -123,8 +150,7 @@
     //[[UIColor redColor] setStroke];
     //[[UIBezierPath bezierPathWithRect:rect] stroke];
 
-    
-    [self.currentLine drawInContext:context];
+    [self.currentStroke.tool drawLine:self.currentStroke.line inContext:context];
 
     //[[UIColor redColor] setStroke];
     //[[UIBezierPath bezierPathWithRect:currentLine.lineBounds] stroke];

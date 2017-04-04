@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SFSketchTool.h"
 
 @interface SFSketchView : UIView
+
+@property (strong) id <SFSketchTool> currentTool;
 
 - (void) clear;
 

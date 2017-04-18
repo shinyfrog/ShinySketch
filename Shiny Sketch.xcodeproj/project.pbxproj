@@ -21,7 +21,23 @@
 		0C5425021E8D32D20066F844 /* SFSketchPenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425011E8D32D20066F844 /* SFSketchPenTool.m */; };
 		0C5425051E8D47FF0066F844 /* SFSketchStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425041E8D47FF0066F844 /* SFSketchStroke.m */; };
 		0C5425141E93ABCC0066F844 /* SFSketchFountainPenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425131E93ABCC0066F844 /* SFSketchFountainPenTool.m */; };
+		0C5425171E93EA680066F844 /* SFSketchHighligherTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425161E93EA680066F844 /* SFSketchHighligherTool.m */; };
+		0C5425201E979F8E0066F844 /* SFSketchEraserTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C54251F1E979F8D0066F844 /* SFSketchEraserTool.m */; };
+		0C7E61511EA0FCED00347ACB /* SFSketchGeometryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E61501EA0FCED00347ACB /* SFSketchGeometryUtils.m */; };
+		0C7E61591EA1044800347ACB /* Shiny_SketchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E61581EA1044800347ACB /* Shiny_SketchTests.m */; };
+		0C7E61601EA1065400347ACB /* SFSketchGeometryUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E61501EA0FCED00347ACB /* SFSketchGeometryUtils.m */; };
+		0C7E61631EA10ADA00347ACB /* SFSketchDouglasPeucker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7E61621EA10ADA00347ACB /* SFSketchDouglasPeucker.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0C7E615E1EA1061D00347ACB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C043AB41E795D6500A8B18B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0C043ABB1E795D6500A8B18B;
+			remoteInfo = "Shiny Sketch";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0C043ABC1E795D6500A8B18B /* Shiny Sketch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shiny Sketch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,6 +64,17 @@
 		0C5425041E8D47FF0066F844 /* SFSketchStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchStroke.m; sourceTree = "<group>"; };
 		0C5425121E93ABCB0066F844 /* SFSketchFountainPenTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchFountainPenTool.h; sourceTree = "<group>"; };
 		0C5425131E93ABCC0066F844 /* SFSketchFountainPenTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchFountainPenTool.m; sourceTree = "<group>"; };
+		0C5425151E93EA680066F844 /* SFSketchHighligherTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchHighligherTool.h; sourceTree = "<group>"; };
+		0C5425161E93EA680066F844 /* SFSketchHighligherTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchHighligherTool.m; sourceTree = "<group>"; };
+		0C54251E1E979F8D0066F844 /* SFSketchEraserTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchEraserTool.h; sourceTree = "<group>"; };
+		0C54251F1E979F8D0066F844 /* SFSketchEraserTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchEraserTool.m; sourceTree = "<group>"; };
+		0C7E614F1EA0FCED00347ACB /* SFSketchGeometryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchGeometryUtils.h; sourceTree = "<group>"; };
+		0C7E61501EA0FCED00347ACB /* SFSketchGeometryUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchGeometryUtils.m; sourceTree = "<group>"; };
+		0C7E61561EA1044700347ACB /* Shiny SketchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shiny SketchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C7E61581EA1044800347ACB /* Shiny_SketchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Shiny_SketchTests.m; sourceTree = "<group>"; };
+		0C7E615A1EA1044800347ACB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C7E61611EA10ADA00347ACB /* SFSketchDouglasPeucker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchDouglasPeucker.h; sourceTree = "<group>"; };
+		0C7E61621EA10ADA00347ACB /* SFSketchDouglasPeucker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchDouglasPeucker.m; sourceTree = "<group>"; };
 		0CC7B9741E8D2E8000A56CB7 /* SFSketchTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchTool.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +87,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0C7E61531EA1044700347ACB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -67,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				0C043ABE1E795D6500A8B18B /* Shiny Sketch */,
+				0C7E61571EA1044800347ACB /* Shiny SketchTests */,
 				0C043ABD1E795D6500A8B18B /* Products */,
 				0C043ADD1E7985CC00A8B18B /* Frameworks */,
 			);
@@ -76,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				0C043ABC1E795D6500A8B18B /* Shiny Sketch.app */,
+				0C7E61561EA1044700347ACB /* Shiny SketchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +149,10 @@
 				0C043AD81E797F8D00A8B18B /* SFSketchView.m */,
 				0C5425031E8D47FF0066F844 /* SFSketchStroke.h */,
 				0C5425041E8D47FF0066F844 /* SFSketchStroke.m */,
+				0C7E614F1EA0FCED00347ACB /* SFSketchGeometryUtils.h */,
+				0C7E61501EA0FCED00347ACB /* SFSketchGeometryUtils.m */,
+				0C7E61611EA10ADA00347ACB /* SFSketchDouglasPeucker.h */,
+				0C7E61621EA10ADA00347ACB /* SFSketchDouglasPeucker.m */,
 				0C5425061E8D5B740066F844 /* Tools */,
 				0C5425071E8D5B880066F844 /* Lines */,
 			);
@@ -135,6 +175,10 @@
 				0C5425011E8D32D20066F844 /* SFSketchPenTool.m */,
 				0C5425121E93ABCB0066F844 /* SFSketchFountainPenTool.h */,
 				0C5425131E93ABCC0066F844 /* SFSketchFountainPenTool.m */,
+				0C5425151E93EA680066F844 /* SFSketchHighligherTool.h */,
+				0C5425161E93EA680066F844 /* SFSketchHighligherTool.m */,
+				0C54251E1E979F8D0066F844 /* SFSketchEraserTool.h */,
+				0C54251F1E979F8D0066F844 /* SFSketchEraserTool.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -148,6 +192,15 @@
 				0C043AE11E7AA08900A8B18B /* SFSketchPoint.m */,
 			);
 			name = Lines;
+			sourceTree = "<group>";
+		};
+		0C7E61571EA1044800347ACB /* Shiny SketchTests */ = {
+			isa = PBXGroup;
+			children = (
+				0C7E61581EA1044800347ACB /* Shiny_SketchTests.m */,
+				0C7E615A1EA1044800347ACB /* Info.plist */,
+			);
+			path = "Shiny SketchTests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +223,24 @@
 			productReference = 0C043ABC1E795D6500A8B18B /* Shiny Sketch.app */;
 			productType = "com.apple.product-type.application";
 		};
+		0C7E61551EA1044700347ACB /* Shiny SketchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C7E615B1EA1044800347ACB /* Build configuration list for PBXNativeTarget "Shiny SketchTests" */;
+			buildPhases = (
+				0C7E61521EA1044700347ACB /* Sources */,
+				0C7E61531EA1044700347ACB /* Frameworks */,
+				0C7E61541EA1044700347ACB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0C7E615F1EA1061D00347ACB /* PBXTargetDependency */,
+			);
+			name = "Shiny SketchTests";
+			productName = "Shiny SketchTests";
+			productReference = 0C7E61561EA1044700347ACB /* Shiny SketchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -183,6 +254,12 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9K33E3U3T4;
 						ProvisioningStyle = Automatic;
+					};
+					0C7E61551EA1044700347ACB = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 9K33E3U3T4;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 0C043ABB1E795D6500A8B18B;
 					};
 				};
 			};
@@ -200,6 +277,7 @@
 			projectRoot = "";
 			targets = (
 				0C043ABB1E795D6500A8B18B /* Shiny Sketch */,
+				0C7E61551EA1044700347ACB /* Shiny SketchTests */,
 			);
 		};
 /* End PBXProject section */
@@ -216,6 +294,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0C7E61541EA1044700347ACB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -227,15 +312,36 @@
 				0C043ADC1E7984A000A8B18B /* SFSketchLine.m in Sources */,
 				0C043AC41E795D6500A8B18B /* AppDelegate.m in Sources */,
 				0C5425141E93ABCC0066F844 /* SFSketchFountainPenTool.m in Sources */,
+				0C5425201E979F8E0066F844 /* SFSketchEraserTool.m in Sources */,
 				0C043AC11E795D6500A8B18B /* main.m in Sources */,
+				0C7E61511EA0FCED00347ACB /* SFSketchGeometryUtils.m in Sources */,
+				0C7E61631EA10ADA00347ACB /* SFSketchDouglasPeucker.m in Sources */,
 				0C043AD91E797F8D00A8B18B /* SFSketchView.m in Sources */,
 				0C5425021E8D32D20066F844 /* SFSketchPenTool.m in Sources */,
+				0C5425171E93EA680066F844 /* SFSketchHighligherTool.m in Sources */,
 				0C5425051E8D47FF0066F844 /* SFSketchStroke.m in Sources */,
 				0C043AE21E7AA08900A8B18B /* SFSketchPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0C7E61521EA1044700347ACB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C7E61601EA1065400347ACB /* SFSketchGeometryUtils.m in Sources */,
+				0C7E61591EA1044800347ACB /* Shiny_SketchTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0C7E615F1EA1061D00347ACB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0C043ABB1E795D6500A8B18B /* Shiny Sketch */;
+			targetProxy = 0C7E615E1EA1061D00347ACB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0C043AC81E795D6500A8B18B /* Main.storyboard */ = {
@@ -371,6 +477,30 @@
 			};
 			name = Release;
 		};
+		0C7E615C1EA1044800347ACB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 9K33E3U3T4;
+				INFOPLIST_FILE = "Shiny SketchTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.shinyfrog.Shiny-SketchTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shiny Sketch.app/Shiny Sketch";
+			};
+			name = Debug;
+		};
+		0C7E615D1EA1044800347ACB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 9K33E3U3T4;
+				INFOPLIST_FILE = "Shiny SketchTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.shinyfrog.Shiny-SketchTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shiny Sketch.app/Shiny Sketch";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -391,6 +521,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		0C7E615B1EA1044800347ACB /* Build configuration list for PBXNativeTarget "Shiny SketchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C7E615C1EA1044800347ACB /* Debug */,
+				0C7E615D1EA1044800347ACB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

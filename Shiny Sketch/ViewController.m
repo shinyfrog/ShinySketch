@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "SFSketchPenTool.h"
 #import "SFSketchFountainPenTool.h"
+#import "SFSketchHighligherTool.h"
+#import "SFSketchEraserTool.h"
 
 @interface ViewController ()
 
@@ -40,14 +42,33 @@
     }
 }
 
+- (IBAction) usePenTool:(id)sender
+{
+    SFSketchPenTool *tool = [SFSketchPenTool new];
+    self.sketchView.currentTool = tool;
+}
+
+- (IBAction) useHighlighterTool:(id)sender
+{
+//    [self useEraserTool:sender];
+//    return;
+    
+    SFSketchHighligherTool *tool = [SFSketchHighligherTool new];
+    self.sketchView.currentTool = tool;
+}
+
+
+- (IBAction) useEraserTool:(id)sender
+{
+    SFSketchEraserTool *tool = [SFSketchEraserTool new];
+    self.sketchView.currentTool = tool;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    //SFSketchFountainPenTool *tool = [SFSketchFountainPenTool new];
-    SFSketchPenTool *tool = [SFSketchPenTool new];
-
-    self.sketchView.currentTool = tool;
+    [self usePenTool:self];
 }
 
 

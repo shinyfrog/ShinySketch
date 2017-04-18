@@ -12,7 +12,6 @@
 
 @interface SFSketchView ()
 
-@property (nonatomic) CGContextRef imageContext;
 @property (nonatomic) CGImageRef image;
 
 @property (strong) NSMutableArray *strokes;
@@ -32,22 +31,20 @@
     return self;
 }
 
-- (CGContextRef)imageContext
+- (CGContextRef)bitmapContext
 {
-    if (!_imageContext) {
-        CGFloat scale = self.window.screen.scale;
-        CGSize size = self.bounds.size;
-        size.width *= scale; size.height *= scale;
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        
-        _imageContext = CGBitmapContextCreate(nil, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
-        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(scale, scale);
-        CGContextConcatCTM(_imageContext, scaleTransform);
-        
-        CGColorSpaceRelease(colorSpace);
-    }
+    CGFloat scale = self.window.screen.scale;
+    CGSize size = self.bounds.size;
+    size.width *= scale; size.height *= scale;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
-    return _imageContext;
+    CGContextRef bitmapContext = CGBitmapContextCreate(nil, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
+    CGAffineTransform scaleTransform = CGAffineTransformMakeScale(scale, scale);
+    CGContextConcatCTM(bitmapContext, scaleTransform);
+    
+    CGColorSpaceRelease(colorSpace);
+    
+    return bitmapContext;
 }
 
 #pragma mark - Clear
@@ -55,9 +52,6 @@
 - (void) clear
 {
     [self.strokes removeAllObjects];
-    
-    CGSize imageContextSize = CGSizeMake(CGBitmapContextGetWidth(self.imageContext), CGBitmapContextGetHeight(self.imageContext));
-    CGContextClearRect(self.imageContext, CGRectMake(0, 0, imageContextSize.width, imageContextSize.height));
     
     if (_image) {
         CFRelease(_image);
@@ -111,14 +105,33 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
-    
-    [self.currentStroke.tool drawLine:self.currentStroke.line inContext:_imageContext];
-    
-    self.currentStroke.line = nil;
-    if (_image) {
-        CFRelease(_image);
-        _image = nil;        
+
+    [self.currentStroke.line removePointsForType:SFSketchPointTypePredicted];
+
+    for (UITouch *touch in touches) {
+        [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
     }
+    
+    
+    CGRect rectToRedraw = [self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line];
+    
+    CGContextRef bitmapContext = [self bitmapContext];
+    
+    if (_image) {
+        CGContextDrawImage(bitmapContext, self.bounds, _image);
+    }
+    
+    [self.currentStroke.tool drawLine:self.currentStroke.line inContext:bitmapContext];
+    
+    CGImageRelease(_image);
+
+    _image = CGBitmapContextCreateImage(bitmapContext);
+    
+    CGContextRelease(bitmapContext);
+
+    self.currentStroke = nil;
+
+    [self setNeedsDisplayInRect:rectToRedraw];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -139,21 +152,32 @@
 {
     [super drawRect:rect];
     
-    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    if (!_image) {
-        _image = CGBitmapContextCreateImage(self.imageContext);
-
+    CGContextRef bitmapContext = [self bitmapContext];
+    
+    // We have a cached image, drawing it on the bitmap context
+    if (_image) {
+        CGContextDrawImage(bitmapContext, self.bounds, _image);
     }
-    CGContextDrawImage(context, self.bounds, _image);
+    // We have a on-going stroke, drawing it on the bitmap context
+    if (_currentStroke) {
+        [self.currentStroke.tool drawLine:self.currentStroke.line inContext:bitmapContext];
+    }
     
-    //[[UIColor redColor] setStroke];
-    //[[UIBezierPath bezierPathWithRect:rect] stroke];
+    // Creating an image from the bitmap context
+    CGImageRef img = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
+   
+    // Drawing the final image
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextDrawImage(context, self.bounds, img);
+    
+    // Releasing the image
+    CGImageRelease(img);
 
-    [self.currentStroke.tool drawLine:self.currentStroke.line inContext:context];
-
+    // Debug
     //[[UIColor redColor] setStroke];
-    //[[UIBezierPath bezierPathWithRect:currentLine.lineBounds] stroke];
+    //[[UIBezierPath bezierPathWithRect:[self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line]] stroke];
 }
 
 @end

@@ -9,10 +9,20 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Shiny SketchTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>0C043ABB1E795D6500A8B18B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0C7E61551EA1044700347ACB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

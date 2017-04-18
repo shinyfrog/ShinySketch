@@ -14,4 +14,7 @@
 @property (strong) SFSketchLine *line;
 @property (copy) id <SFSketchTool> tool;
 
+- (CGRect) boundsForLastSegment;
+- (void) drawRect: (CGRect) rect inContext: (CGContextRef) context;
+
 @end

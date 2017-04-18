@@ -77,6 +77,7 @@
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextBeginPath(context);
 
+    
     [linePoints enumerateObjectsUsingBlock:^(SFSketchPoint *currentPoint, NSUInteger idx, BOOL * _Nonnull stop) {
         
         if (idx == 0) {

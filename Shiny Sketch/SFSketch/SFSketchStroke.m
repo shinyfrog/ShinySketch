@@ -10,4 +10,14 @@
 
 @implementation SFSketchStroke
 
+- (void) drawRect: (CGRect) rect inContext: (CGContextRef) context;
+{
+    [self.tool drawLine:self.line inContext:context];
+}
+
+- (CGRect) boundsForLastSegment
+{
+    return [self.tool boundsForLastLineSegmnet:self.line];
+}
+
 @end

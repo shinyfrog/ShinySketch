@@ -78,7 +78,7 @@
         [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
     }
     
-    CGRect rectToRedraw = [self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line];
+    CGRect rectToRedraw = [self.currentStroke boundsForLastSegment];
     [self setNeedsDisplayInRect:rectToRedraw];
 }
 
@@ -92,13 +92,17 @@
 
         [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
         
-        UITouch *predictedTouch = [[event predictedTouchesForTouch:touch] firstObject];
+        /*for (UITouch *predictedTouch in [event predictedTouchesForTouch:touch]) {
+            [self.currentStroke.line addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
+        }*/
+        
+        /*UITouch *predictedTouch = [[event predictedTouchesForTouch:touch] firstObject];
         if (predictedTouch) {
             [self.currentStroke.line addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
-        }
+        }*/
     }
 
-    CGRect rectToRedraw = [self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line];
+    CGRect rectToRedraw = [self.currentStroke boundsForLastSegment];
     [self setNeedsDisplayInRect:rectToRedraw];
 }
 
@@ -113,7 +117,7 @@
     }
     
     
-    CGRect rectToRedraw = [self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line];
+    CGRect rectToRedraw = [self.currentStroke boundsForLastSegment];
     
     CGContextRef bitmapContext = [self bitmapContext];
     
@@ -121,7 +125,7 @@
         CGContextDrawImage(bitmapContext, self.bounds, _image);
     }
     
-    [self.currentStroke.tool drawLine:self.currentStroke.line inContext:bitmapContext];
+    [self.currentStroke drawRect:self.bounds inContext:bitmapContext];
     
     CGImageRelease(_image);
 
@@ -138,7 +142,7 @@
 {
     [super touchesCancelled:touches withEvent:event];
     
-    CGRect boundToRefresh = [self.currentTool boundsForLine:self.currentStroke.line];
+    CGRect boundToRefresh = [self.currentStroke boundsForLastSegment];
 
     [self.strokes removeObject:self.currentStroke];
     self.currentStroke = nil;
@@ -161,7 +165,7 @@
     }
     // We have a on-going stroke, drawing it on the bitmap context
     if (_currentStroke) {
-        [self.currentStroke.tool drawLine:self.currentStroke.line inContext:bitmapContext];
+        [self.currentStroke drawRect:rect inContext:bitmapContext];
     }
     
     // Creating an image from the bitmap context

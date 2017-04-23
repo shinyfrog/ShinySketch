@@ -59,7 +59,7 @@
     return tipSize;
 }
 
-- (void) drawLine: (SFSketchLine *) line inContext: (CGContextRef) context
+- (void) drawLine: (SFSketchLine *) line inRect: (CGRect) rect context: (CGContextRef) context;
 {
     NSArray *linePoints = line.points;
     

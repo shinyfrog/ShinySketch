@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         self.tipSize = 1.1;
-        self.color = [UIColor blackColor];
+        self.color = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1.0];
     }
     return self;
 }
@@ -53,41 +53,53 @@
     return CGRectInset(boundsForLastLineSegmnet, -self.tipSize, -self.tipSize);
 }
 
-- (void) drawLine: (SFSketchLine *) line inContext: (CGContextRef) context
+- (void) drawLine: (SFSketchLine *) line inRect: (CGRect) rect context: (CGContextRef) context;
 {
     NSArray *linePoints = line.points;
+    [self drawPoints:linePoints inContext:context];
     
+}
+
+- (void) drawPoints: (NSArray *) points inContext: (CGContextRef) context
+{
     // The first round is using only the initial point
-    __block SFSketchPoint *previousPoint1 = [linePoints firstObject];
-    __block SFSketchPoint *previousPoint2 = [linePoints firstObject];
+    __block SFSketchPoint *previousPoint1 = [points firstObject];
+    __block SFSketchPoint *previousPoint2 = [points firstObject];
     
     CGContextSetLineCap(context, kCGLineCapRound);
     UIColor *strokeColor = self.color;
     CGContextSetBlendMode(context, kCGBlendModeNormal);
-
+    
     CGContextSetStrokeColorWithColor(context, [strokeColor CGColor]);
     CGContextSetLineWidth(context, self.tipSize);
     
-    [linePoints enumerateObjectsUsingBlock:^(SFSketchPoint *currentPoint, NSUInteger idx, BOOL * _Nonnull stop) {
+    [points enumerateObjectsUsingBlock:^(SFSketchPoint *currentPoint, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        // calculate mid point
-        CGPoint mid1 = [self midPointForPoint:previousPoint1.location secondPoint:previousPoint2.location];
-        CGPoint mid2 = [self midPointForPoint:currentPoint.location secondPoint:previousPoint1.location];
+        if (idx < 2) {
+            previousPoint2 = previousPoint1;
+            previousPoint1 = currentPoint;
+            return;
+        }
         
-        CGContextBeginPath(context);
+            // calculate mid point
+            CGPoint mid1 = [self midPointForPoint:previousPoint1.location secondPoint:previousPoint2.location];
+            CGPoint mid2 = [self midPointForPoint:currentPoint.location secondPoint:previousPoint1.location];
+            
+            CGContextBeginPath(context);
+            
+            CGContextMoveToPoint(context, mid1.x, mid1.y);
+            CGContextAddQuadCurveToPoint(context, previousPoint1.location.x, previousPoint1.location.y, mid2.x, mid2.y);
+            CGContextStrokePath(context);
         
-        CGContextMoveToPoint(context, mid1.x, mid1.y);
-        CGContextAddQuadCurveToPoint(context, previousPoint1.location.x, previousPoint1.location.y, mid2.x, mid2.y);
-        CGContextStrokePath(context);
-
         previousPoint2 = previousPoint1;
         previousPoint1 = currentPoint;
         
-//        [self drawPoint:mid1 inContext:context color:[[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor];
-//        [self drawPoint:mid2 inContext:context color:[[UIColor blueColor] colorWithAlphaComponent:0.5].CGColor];
-//        [self drawPoint:currentPoint.location inContext:context color:[[UIColor redColor] colorWithAlphaComponent:0.5].CGColor];
+//                [self drawPoint:mid1 inContext:context color:[[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor];
+//                [self drawPoint:mid2 inContext:context color:[[UIColor blueColor] colorWithAlphaComponent:0.5].CGColor];
+//                [self drawPoint:currentPoint.location inContext:context color:[[UIColor redColor] colorWithAlphaComponent:0.5].CGColor];
         
     }];
+    
 }
 
 - (void) drawPoint: (CGPoint) point inContext: (CGContextRef) context color: (CGColorRef) color

@@ -10,9 +10,28 @@
 
 @implementation SFSketchStroke
 
+- (CGRect) drawTouches:(NSSet *)touches event: (UIEvent *) event inContext: (CGContextRef) context;
+{
+    NSUInteger currentLineIndex = self.line.points.count ? self.line.points.count-2 : 0;
+    
+    for (UITouch *touch in touches) {
+        [self.line addPointForTouch:touch type:SFSketchPointTypeStandard];
+    }
+    
+    if (self.line.points.count < 3) {
+        return CGRectZero;
+    }
+
+    NSArray *pointToDraw = [self.line.points subarrayWithRange:NSMakeRange(currentLineIndex, touches.count+2)];
+        
+    [self.tool drawPoints:pointToDraw inContext:context];
+    
+    return [self boundsForLastSegment];
+}
+
 - (void) drawRect: (CGRect) rect inContext: (CGContextRef) context;
 {
-    [self.tool drawLine:self.line inContext:context];
+    [self.tool drawLine:self.line inRect:rect context:context];
 }
 
 - (CGRect) boundsForLastSegment

@@ -15,4 +15,5 @@
 @property (nonatomic) CGFloat tipSize;
 @property (copy) UIColor *color;
 
+
 @end

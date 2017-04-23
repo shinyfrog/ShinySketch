@@ -48,13 +48,16 @@
     return CGRectInset(boundsForLastLineSegmnet, -self.tipSize, -self.tipSize);
 }
 
-- (void) drawLine: (SFSketchLine *) line inContext: (CGContextRef) context
+- (void) drawLine: (SFSketchLine *) line inRect: (CGRect) rect context: (CGContextRef) context;
 {
-    NSArray *linePoints = line.points;
-    
+    [self drawPoints:line.points inContext:context];
+}
+
+- (void) drawPoints: (NSArray *) points inContext: (CGContextRef) context
+{
     // The first round is using only the initial point
-    __block SFSketchPoint *previousPoint1 = [linePoints firstObject];
-    __block SFSketchPoint *previousPoint2 = [linePoints firstObject];
+    __block SFSketchPoint *previousPoint1 = [points firstObject];
+    __block SFSketchPoint *previousPoint2 = [points firstObject];
     
     //CGContextSetLineCap(context, kCGLineCapSquare);
     UIColor *strokeColor = self.color;
@@ -63,8 +66,13 @@
     CGContextSetLineWidth(context, self.tipSize);
     CGContextSetBlendMode(context, kCGBlendModeClear);
     
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+    CGContextSetLineCap(context, kCGLineCapRound);
 
-    [linePoints enumerateObjectsUsingBlock:^(SFSketchPoint *currentPoint, NSUInteger idx, BOOL * _Nonnull stop) {
+
+    [points enumerateObjectsUsingBlock:^(SFSketchPoint *currentPoint, NSUInteger idx, BOOL * _Nonnull stop) {
+ 
+        
         
         // calculate mid point
         CGPoint mid1 = [self midPointForPoint:previousPoint1.location secondPoint:previousPoint2.location];

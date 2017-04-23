@@ -15,6 +15,7 @@
 - (CGRect) boundsForLine: (SFSketchLine *) line;
 - (CGRect) boundsForLastLineSegmnet: (SFSketchLine *) line;
 
-- (void) drawLine: (SFSketchLine *) line inContext: (CGContextRef) context;
+- (void) drawLine: (SFSketchLine *) line inRect: (CGRect) rect context: (CGContextRef) context;
+- (void) drawPoints: (NSArray *) points inContext: (CGContextRef) context;
 
 @end                                                    

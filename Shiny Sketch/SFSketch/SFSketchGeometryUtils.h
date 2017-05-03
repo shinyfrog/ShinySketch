@@ -14,4 +14,6 @@
 + (CGFloat) distanceBetweenPoint: (CGPoint) p1 secondPoint: (CGPoint) p2;
 + (CGFloat) perpendicularDistanceFromPoint: (CGPoint) point linePointA: (CGPoint) linePointA linePointB: (CGPoint) linePointB;
 
++ (CGPoint) midPointForPoint: (CGPoint) p1 secondPoint: (CGPoint) p2;
+
 @end

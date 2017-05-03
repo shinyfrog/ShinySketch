@@ -9,6 +9,7 @@
 @import Foundation;
 
 #import "SFSketchLine.h"
+#import "SFSketchGeometryUtils.h"
 
 @protocol SFSketchTool <NSObject>
 

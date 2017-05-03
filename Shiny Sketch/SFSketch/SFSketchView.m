@@ -95,18 +95,6 @@
     CGRect rectToRedraw = [self.currentStroke drawTouches:touches event:event inContext:self.currentBitmapContext];
     
     [self setNeedsDisplayInRect:rectToRedraw];
-
-    /*
-    for (UITouch *touch in touches) {
-        [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
-    }
-
-    CGRect rectToRedraw = [self.currentStroke boundsForLastSegment];
-
-    [self.currentStroke drawRect:rectToRedraw inContext:self.currentBitmapContext];
-    
-    [self setNeedsDisplayInRect:rectToRedraw];
- */
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -119,38 +107,6 @@
     
     [self setNeedsDisplayInRect:rectToRedraw];
 
-    //creare un contesto nuovo
-    //disegnare l’immagine di cache
-    //disegnare solo i nuovi punti
-
-    /*
-    [self.currentStroke.line removePointsForType:SFSketchPointTypePredicted];
-
-    for (UITouch *touch in touches) {
-
-        [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
-        
-//        for (UITouch *predictedTouch in [event predictedTouchesForTouch:touch]) {
-//            [self.currentStroke.line addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
-//        }
-//        
-//        UITouch *predictedTouch = [[event predictedTouchesForTouch:touch] firstObject];
-//        if (predictedTouch) {
-//            [self.currentStroke.line addPointForTouch:predictedTouch type:SFSketchPointTypePredicted];
-//        }
-    }
-
-    CGRect rectToRedraw = [self.currentStroke boundsForLastSegment];
-    
-    //CGContextClearRect(self.currentBitmapContext, rectToRedraw);
-    
-    if (self.image) {
-        //CGContextDrawImage(self.currentBitmapContext, self.bounds, _image);
-    }
-
-    [self.currentStroke drawRect:rectToRedraw inContext:self.currentBitmapContext];
-
-    [self setNeedsDisplayInRect:rectToRedraw];*/
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -171,46 +127,6 @@
     
     self.currentStroke = nil;
 
-    /*
-    [self.currentStroke.line removePointsForType:SFSketchPointTypePredicted];
-
-    for (UITouch *touch in touches) {
-        [self.currentStroke.line addPointForTouch:touch type:SFSketchPointTypeStandard];
-    }
-    
-    
-    CGRect rectToRedraw = [self.currentStroke boundsForLastSegment];
-    
-    [self.currentStroke drawRect:rectToRedraw inContext:self.currentBitmapContext];
-    
-    if (self.image) {
-        CGImageRelease(_image);
-    }
-    
-    self.image = CGBitmapContextCreateImage(self.currentBitmapContext);
-
-    self.currentStroke = nil;
-     */
-
-    /*
-    CGContextRef bitmapContext = [self bitmapContext];
-    
-    if (_image) {
-        CGContextDrawImage(bitmapContext, self.bounds, _image);
-    }
-    
-    [self.currentStroke drawRect:self.bounds inContext:bitmapContext];
-    
-    CGImageRelease(_image);
-
-    _image = CGBitmapContextCreateImage(bitmapContext);
-    
-    CGContextRelease(bitmapContext);
-
-    self.currentStroke = nil;
-     */
-
-    //[self setNeedsDisplayInRect:rectToRedraw];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -248,32 +164,6 @@
         // Drawing the final image
         CGContextDrawImage(context, self.bounds, self.image);
     }
-    /*
-    CGContextRef bitmapContext = [self bitmapContext];
-    
-    // We have a cached image, drawing it on the bitmap context
-    if (_image) {
-        CGContextDrawImage(bitmapContext, self.bounds, _image);
-    }
-    // We have a on-going stroke, drawing it on the bitmap context
-    if (_currentStroke) {
-        [self.currentStroke drawRect:rect inContext:bitmapContext];
-    }
-    
-    // Creating an image from the bitmap context
-    CGImageRef img = CGBitmapContextCreateImage(bitmapContext);
-    CGContextRelease(bitmapContext);
-   
-    // Drawing the final image
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextDrawImage(context, self.bounds, img);
-    
-    // Releasing the image
-    CGImageRelease(img);
-*/
-    // Debug
-    //[[UIColor redColor] setStroke];
-    //[[UIBezierPath bezierPathWithRect:[self.currentStroke.tool boundsForLastLineSegmnet:self.currentStroke.line]] stroke];
 }
 
 @end

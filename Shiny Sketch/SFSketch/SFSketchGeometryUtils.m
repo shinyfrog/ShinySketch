@@ -33,4 +33,10 @@
 }
 
 
++ (CGPoint) midPointForPoint: (CGPoint) p1 secondPoint: (CGPoint) p2
+{
+    return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
+}
+
+
 @end

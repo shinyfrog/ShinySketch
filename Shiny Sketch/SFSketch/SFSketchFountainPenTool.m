@@ -31,11 +31,6 @@
     return toolCopy;
 }
 
-- (CGPoint) midPointForPoint: (CGPoint) p1 secondPoint: (CGPoint) p2
-{
-    return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
-}
-
 - (CGRect) boundsForLine: (SFSketchLine *) line
 {
     return CGRectInset(line.lineBounds, -self.tipSize * 4.0 * 4.0, -self.tipSize * 4.0 * 4.0);
@@ -75,8 +70,8 @@
     [linePoints enumerateObjectsUsingBlock:^(SFSketchPoint *currentPoint, NSUInteger idx, BOOL * _Nonnull stop) {
         
         // calculate mid point
-        CGPoint mid1 = [self midPointForPoint:previousPoint1.location secondPoint:previousPoint2.location];
-        CGPoint mid2 = [self midPointForPoint:currentPoint.location secondPoint:previousPoint1.location];
+        CGPoint mid1 = [SFSketchGeometryUtils midPointForPoint:previousPoint1.location secondPoint:previousPoint2.location];
+        CGPoint mid2 = [SFSketchGeometryUtils midPointForPoint:currentPoint.location secondPoint:previousPoint1.location];
         
         CGContextBeginPath(context);
         

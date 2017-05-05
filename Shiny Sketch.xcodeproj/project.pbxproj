@@ -17,7 +17,6 @@
 		0C043ADC1E7984A000A8B18B /* SFSketchLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C043ADB1E7984A000A8B18B /* SFSketchLine.m */; };
 		0C043ADF1E7985CC00A8B18B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C043ADE1E7985CC00A8B18B /* CoreGraphics.framework */; };
 		0C043AE21E7AA08900A8B18B /* SFSketchPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C043AE11E7AA08900A8B18B /* SFSketchPoint.m */; };
-		0C043AF21E7C07A800A8B18B /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C043AF11E7C07A800A8B18B /* brush.png */; };
 		0C5425021E8D32D20066F844 /* SFSketchPenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425011E8D32D20066F844 /* SFSketchPenTool.m */; };
 		0C5425051E8D47FF0066F844 /* SFSketchStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425041E8D47FF0066F844 /* SFSketchStroke.m */; };
 		0C5425141E93ABCC0066F844 /* SFSketchFountainPenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425131E93ABCC0066F844 /* SFSketchFountainPenTool.m */; };
@@ -57,7 +56,6 @@
 		0C043ADE1E7985CC00A8B18B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0C043AE01E7AA08900A8B18B /* SFSketchPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchPoint.h; sourceTree = "<group>"; };
 		0C043AE11E7AA08900A8B18B /* SFSketchPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchPoint.m; sourceTree = "<group>"; };
-		0C043AF11E7C07A800A8B18B /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brush.png; sourceTree = "<group>"; };
 		0C5425001E8D32D20066F844 /* SFSketchPenTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchPenTool.h; sourceTree = "<group>"; };
 		0C5425011E8D32D20066F844 /* SFSketchPenTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchPenTool.m; sourceTree = "<group>"; };
 		0C5425031E8D47FF0066F844 /* SFSketchStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchStroke.h; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 				0C043AC31E795D6500A8B18B /* AppDelegate.m */,
 				0C043AC51E795D6500A8B18B /* ViewController.h */,
 				0C043AC61E795D6500A8B18B /* ViewController.m */,
-				0C043AF11E7C07A800A8B18B /* brush.png */,
 				0C043AD61E797E9900A8B18B /* SFSketch */,
 				0C043AC81E795D6500A8B18B /* Main.storyboard */,
 				0C043ACB1E795D6500A8B18B /* Assets.xcassets */,
@@ -287,7 +284,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C043AF21E7C07A800A8B18B /* brush.png in Resources */,
 				0C043ACF1E795D6500A8B18B /* LaunchScreen.storyboard in Resources */,
 				0C043ACC1E795D6500A8B18B /* Assets.xcassets in Resources */,
 				0C043ACA1E795D6500A8B18B /* Main.storyboard in Resources */,
@@ -529,6 +525,7 @@
 				0C7E615D1EA1044800347ACB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

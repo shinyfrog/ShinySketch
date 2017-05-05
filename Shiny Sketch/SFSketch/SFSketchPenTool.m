@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        self.tipSize = 1.1;
+        self.tipSize = 0.8;
         self.color = [UIColor colorWithRed:0.15 green:0.15 blue:0.15 alpha:1.0];
     }
     return self;

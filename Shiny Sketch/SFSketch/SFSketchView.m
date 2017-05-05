@@ -27,15 +27,46 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.strokes = [NSMutableArray array];
+        [self setupView];
     }
     return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupView];
+    }
+    return self;
+}
+
+- (void) setupView
+{
+    self.strokes = [NSMutableArray array];
+    self.initialSize = self.bounds.size;
+}
+
+- (void) scaleViewForNewSize:(CGSize)size
+{
+    CGFloat scale;
+    
+    if (self.initialSize.width > self.initialSize.height) {
+        scale = size.width / self.initialSize.width;
+    }
+    else {
+        scale = size.height / self.initialSize.height;
+    }
+    
+    CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
+    
+    self.transform = transform;
 }
 
 - (CGContextRef)bitmapContext
 {
     CGFloat scale = self.window.screen.scale;
-    CGSize size = self.bounds.size;
+    CGSize size = self.initialSize;
     size.width *= scale; size.height *= scale;
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
@@ -126,6 +157,7 @@
     self.image = CGBitmapContextCreateImage(self.currentBitmapContext);
     
     self.currentStroke = nil;
+    self.currentBitmapContext = nil;
 
 }
 

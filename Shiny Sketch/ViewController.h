@@ -11,7 +11,7 @@
 
 @interface ViewController : UIViewController
 
-@property (weak) IBOutlet SFSketchView *sketchView;
+@property (strong) IBOutlet SFSketchView *sketchView;
 
 @end
 

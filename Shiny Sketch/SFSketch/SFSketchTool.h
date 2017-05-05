@@ -13,6 +13,8 @@
 
 @protocol SFSketchTool <NSObject>
 
+@property (copy) UIColor *color;
+
 - (CGRect) boundsForLine: (SFSketchLine *) line;
 - (CGRect) boundsForLastLineSegmnet: (SFSketchLine *) line;
 

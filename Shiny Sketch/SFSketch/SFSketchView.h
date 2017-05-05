@@ -12,7 +12,10 @@
 @interface SFSketchView : UIView
 
 @property (strong) id <SFSketchTool> currentTool;
+@property (nonatomic) CGSize initialSize;
 
 - (void) clear;
+
+- (void) scaleViewForNewSize:(CGSize)size;
 
 @end

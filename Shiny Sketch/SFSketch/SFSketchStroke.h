@@ -15,7 +15,7 @@
 @property (copy) id <SFSketchTool> tool;
 
 - (CGRect) boundsForLastSegment;
-- (void) drawRect: (CGRect) rect inContext: (CGContextRef) context;
+- (void) drawInContext: (CGContextRef) context;
 
 - (CGRect) drawTouches:(NSSet *)touches event: (UIEvent *) event inContext: (CGContextRef) context;
 

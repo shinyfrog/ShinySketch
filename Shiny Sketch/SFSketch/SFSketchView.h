@@ -18,4 +18,10 @@
 
 - (void) scaleViewForNewSize:(CGSize)size;
 
+
+#pragma mark - Undo / Redo
+
+- (IBAction)undo:(id)sender;
+- (IBAction)redo:(id)sender;
+
 @end

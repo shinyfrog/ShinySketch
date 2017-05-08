@@ -147,4 +147,17 @@
     self.sketchView.currentTool.color = [UIColor colorWithRed:0.771 green:0.314 blue:0.378 alpha:1];
 }
 
+#pragma mark - Undo / Redo
+
+- (IBAction)undo:(id)sender
+{
+    [self.sketchView undo:sender];
+}
+
+- (IBAction)redo:(id)sender
+{
+    [self.sketchView redo:sender];
+}
+
+
 @end

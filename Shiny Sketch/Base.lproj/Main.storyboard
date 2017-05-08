@@ -66,6 +66,16 @@
                                     <action selector="useEraserTool:" destination="BYZ-38-t0r" id="9QF-2F-Kri"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="Undo" id="jdf-Dd-o3i">
+                                <connections>
+                                    <action selector="undo:" destination="BYZ-38-t0r" id="TUP-DF-eSE"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Redo" id="PTM-W1-b0v">
+                                <connections>
+                                    <action selector="redo:" destination="BYZ-38-t0r" id="A1H-yU-YV4"/>
+                                </connections>
+                            </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="Clear" id="MLO-7D-f7a">

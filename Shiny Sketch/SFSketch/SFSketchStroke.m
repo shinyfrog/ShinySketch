@@ -29,9 +29,9 @@
     return [self boundsForLastSegment];
 }
 
-- (void) drawRect: (CGRect) rect inContext: (CGContextRef) context;
+- (void) drawInContext: (CGContextRef) context;
 {
-    [self.tool drawLine:self.line inRect:rect context:context];
+    [self.tool drawPoints:self.line.points inContext:context];
 }
 
 - (CGRect) boundsForLastSegment

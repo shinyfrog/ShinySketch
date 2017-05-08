@@ -19,6 +19,8 @@
 
 @property (nonatomic) CGContextRef currentBitmapContext;
 
+@property (strong) NSUndoManager *sketchUndoManager;
+
 @end
 
 @implementation SFSketchView
@@ -45,6 +47,8 @@
 {
     self.strokes = [NSMutableArray array];
     self.initialSize = self.bounds.size;
+    
+    self.sketchUndoManager = [NSUndoManager new];
 }
 
 - (void) scaleViewForNewSize:(CGSize)size
@@ -88,21 +92,60 @@
     _currentBitmapContext = currentBitmapContext;
 }
 
+- (void)setImage:(CGImageRef)image
+{
+    if (self.image) {
+        CGImageRelease(self.image);
+    }
+
+    _image = image;
+}
+
+
 #pragma mark - Clear
 
 - (void) clear
 {
-    [self.strokes removeAllObjects];
-    
-    self.currentBitmapContext = nil;
-    
-    if (_image) {
-        CFRelease(_image);
-        _image = nil;
-    }
-    
-    [self setNeedsDisplayInRect:self.bounds];
+    // copying the array doesn't duplicate the strokes, but allows the undo manager to work correctly
+    [self removeStrokesAndRedraw:[self.strokes copy]];
 }
+
+
+#pragma mark - Undo / Redo
+
+- (IBAction)undo:(id)sender
+{
+    [self.sketchUndoManager undo];
+}
+
+- (IBAction)redo:(id)sender
+{
+    [self.sketchUndoManager redo];
+}
+
+
+#pragma mark - Strokes Handling
+
+- (void) removeStrokesAndRedraw: (NSArray *) strokes
+{
+    [[self.sketchUndoManager prepareWithInvocationTarget:self] addStrokesAndRedraw:strokes];
+
+    [self.strokes removeObjectsInArray:strokes];
+    self.image = [self imageFromStrokes:self.strokes];
+    [self setNeedsDisplayInRect:self.bounds];
+    
+}
+
+- (void) addStrokesAndRedraw: (NSArray *) strokes
+{
+    [[self.sketchUndoManager prepareWithInvocationTarget:self] removeStrokesAndRedraw:strokes];
+
+    [self.strokes addObjectsFromArray:strokes];
+    self.image = [self imageFromStrokes:self.strokes];
+    [self setNeedsDisplayInRect:self.bounds];
+    
+}
+
 
 
 #pragma mark - Touch event handlers
@@ -149,16 +192,13 @@
     CGRect rectToRedraw = [self.currentStroke drawTouches:touches event:event inContext:self.currentBitmapContext];
     
     [self setNeedsDisplayInRect:rectToRedraw];
-
-    if (self.image) {
-        CGImageRelease(_image);
-    }
     
     self.image = CGBitmapContextCreateImage(self.currentBitmapContext);
     
+    [[self.sketchUndoManager prepareWithInvocationTarget:self] removeStrokesAndRedraw:@[self.currentStroke]];
+    
     self.currentStroke = nil;
     self.currentBitmapContext = nil;
-
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -175,6 +215,20 @@
 }
 
 #pragma mark - Draw
+
+- (CGImageRef) imageFromStrokes: (NSArray *) strokes
+{
+    CGContextRef context = [self bitmapContext];
+    for (SFSketchStroke *stroke in strokes) {
+        [stroke drawInContext:context];
+    }
+    
+    CGImageRef img = CGBitmapContextCreateImage(context);
+
+    CGContextRelease(context);
+
+    return img;
+}
 
 - (void)drawRect:(CGRect)rect
 {

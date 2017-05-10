@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SFSketchView.h"
 
-@interface ViewController : UIViewController
+@interface SFSketchViewController : UIViewController
 
+@property (strong) IBOutlet UIScrollView *scrollView;
 @property (strong) IBOutlet SFSketchView *sketchView;
 
 @end

@@ -19,6 +19,7 @@
 		0C32AABA1EC31A5000F0E4B6 /* SFSketchScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C32AAB91EC31A5000F0E4B6 /* SFSketchScrollView.m */; };
 		0C32AAC01EC31BB300F0E4B6 /* SFSketchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C32AABF1EC31BB300F0E4B6 /* SFSketchViewController.m */; };
 		0C32AAC41EC3275900F0E4B6 /* SFSketch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C32AAC31EC3275900F0E4B6 /* SFSketch.storyboard */; };
+		0C32AAC71EC3490100F0E4B6 /* SFSketchIconsKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C32AAC61EC3490100F0E4B6 /* SFSketchIconsKit.m */; };
 		0C5425021E8D32D20066F844 /* SFSketchPenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425011E8D32D20066F844 /* SFSketchPenTool.m */; };
 		0C5425051E8D47FF0066F844 /* SFSketchStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425041E8D47FF0066F844 /* SFSketchStroke.m */; };
 		0C5425141E93ABCC0066F844 /* SFSketchFountainPenTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5425131E93ABCC0066F844 /* SFSketchFountainPenTool.m */; };
@@ -61,6 +62,8 @@
 		0C32AABE1EC31BB300F0E4B6 /* SFSketchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchViewController.h; sourceTree = "<group>"; };
 		0C32AABF1EC31BB300F0E4B6 /* SFSketchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchViewController.m; sourceTree = "<group>"; };
 		0C32AAC31EC3275900F0E4B6 /* SFSketch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SFSketch.storyboard; sourceTree = "<group>"; };
+		0C32AAC51EC3490100F0E4B6 /* SFSketchIconsKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchIconsKit.h; sourceTree = "<group>"; };
+		0C32AAC61EC3490100F0E4B6 /* SFSketchIconsKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchIconsKit.m; sourceTree = "<group>"; };
 		0C5425001E8D32D20066F844 /* SFSketchPenTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchPenTool.h; sourceTree = "<group>"; };
 		0C5425011E8D32D20066F844 /* SFSketchPenTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSketchPenTool.m; sourceTree = "<group>"; };
 		0C5425031E8D47FF0066F844 /* SFSketchStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSketchStroke.h; sourceTree = "<group>"; };
@@ -148,6 +151,8 @@
 				0C32AAC31EC3275900F0E4B6 /* SFSketch.storyboard */,
 				0C32AABE1EC31BB300F0E4B6 /* SFSketchViewController.h */,
 				0C32AABF1EC31BB300F0E4B6 /* SFSketchViewController.m */,
+				0C32AAC51EC3490100F0E4B6 /* SFSketchIconsKit.h */,
+				0C32AAC61EC3490100F0E4B6 /* SFSketchIconsKit.m */,
 				0C32AABB1EC31AAF00F0E4B6 /* Views */,
 				0C32AABD1EC31AC700F0E4B6 /* Strokes */,
 				0C5425061E8D5B740066F844 /* Tools */,
@@ -350,6 +355,7 @@
 				0C5425171E93EA680066F844 /* SFSketchHighligherTool.m in Sources */,
 				0C5425051E8D47FF0066F844 /* SFSketchStroke.m in Sources */,
 				0C043AE21E7AA08900A8B18B /* SFSketchPoint.m in Sources */,
+				0C32AAC71EC3490100F0E4B6 /* SFSketchIconsKit.m in Sources */,
 				0C32AAC01EC31BB300F0E4B6 /* SFSketchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

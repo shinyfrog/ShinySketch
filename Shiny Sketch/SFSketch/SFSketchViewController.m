@@ -12,8 +12,15 @@
 #import "SFSketchHighligherTool.h"
 #import "SFSketchEraserTool.h"
 #import "SFSketchScrollView.h"
+#import "SFSketchIconsKit.h"
+
+#define kToolStrokeColor [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0]
+#define kToolPointColor  [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0]
+#define kToolFillColor   [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
 
 @interface SFSketchViewController ()
+
+@property (strong) NSArray *availableColors;
 
 @end
 
@@ -23,7 +30,7 @@
 {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor grayColor]];
+    [self.view setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0]];
     
     CGSize size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
     [self newDrawCanvasWithSize:size];
@@ -34,6 +41,9 @@
     self.scrollView.maximumZoomScale=6.0;
     self.scrollView.contentSize=size;
     self.scrollView.panGestureRecognizer.minimumNumberOfTouches = 2;
+    
+    [self updateToolIcons];
+    [self setupColorPalette];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -156,6 +166,72 @@
 - (IBAction)redColor:(id)sender
 {
     self.sketchView.currentTool.color = [UIColor colorWithRed:0.771 green:0.314 blue:0.378 alpha:1];
+}
+
+#pragma mark - Icons
+
+- (void) updateToolIcons
+{
+    [self setPenToolIconWithTipColor:nil];
+    [self setMarkerToolIconWithTipColor:nil];
+    [self setEraserToolIconWithTipColor:nil];
+}
+
+- (void) setPenToolIconWithTipColor: (UIColor *) tipColor
+{
+    
+    UIImage *image = [SFSketchIconsKit imageOfPenToolWithToolFillColor:kToolFillColor pointFillColor:kToolPointColor toolStrokeColor:kToolStrokeColor];
+    [self.penToolButton setImage:image forState:UIControlStateNormal];
+}
+
+- (void) setMarkerToolIconWithTipColor: (UIColor *) tipColor
+{
+    UIImage *image = [SFSketchIconsKit imageOfMarkerToolWithToolFillColor:kToolFillColor pointFillColor:kToolPointColor toolStrokeColor:kToolStrokeColor];
+    [self.markerToolButton setImage:image forState:UIControlStateNormal];
+}
+
+- (void) setEraserToolIconWithTipColor: (UIColor *) tipColor
+{
+    UIImage *image = [SFSketchIconsKit imageOfEraserToolWithToolFillColor:kToolFillColor pointFillColor:kToolPointColor toolStrokeColor:kToolStrokeColor];
+    [self.eraserToolButton setImage:image forState:UIControlStateNormal];
+}
+
+#pragma mark - Colors
+
+- (void) setupColorPalette
+{
+    self.availableColors = @[
+                             [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0],
+                             [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1.0],
+                             [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0],
+                             [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0],
+                             [UIColor colorWithRed:0.69 green:0.45 blue:0.80 alpha:1.0],
+                             [UIColor colorWithRed:0.18 green:0.31 blue:0.65 alpha:1.0],
+                             [UIColor colorWithRed:0.38 green:0.68 blue:0.93 alpha:1.0],
+                             [UIColor colorWithRed:0.36 green:0.78 blue:0.50 alpha:1.0],
+                             [UIColor colorWithRed:1.00 green:0.83 blue:0.21 alpha:1.0],
+                             [UIColor colorWithRed:0.95 green:0.60 blue:0.24 alpha:1.0],
+                             [UIColor colorWithRed:0.86 green:0.32 blue:0.32 alpha:1.0],
+                             ];
+    
+    __block CGFloat yOffset = CGRectGetMaxY(self.colorPaletteView.bounds) - 40;
+    [self.availableColors enumerateObjectsUsingBlock:^(UIColor *color, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, yOffset, 40, 40)];
+        [button addTarget:self action:@selector(colorButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.colorPaletteView  addSubview:button];
+        [button setTag:idx];
+        UIImage *image = [SFSketchIconsKit imageOfColorToolWithSize:CGSizeMake(40, 40) toolFillColor:color toolStrokeColor:[kToolStrokeColor colorWithAlphaComponent:0.3]];
+        
+        [button setImage:image forState:UIControlStateNormal];
+        
+        yOffset -= 50;
+    }];
+}
+
+- (IBAction)colorButtonTapped:(id)sender
+{
+    self.sketchView.currentTool.color = [self.availableColors objectAtIndex:[sender tag]];
 }
 
 #pragma mark - Undo / Redo

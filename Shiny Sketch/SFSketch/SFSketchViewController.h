@@ -14,5 +14,12 @@
 @property (strong) IBOutlet UIScrollView *scrollView;
 @property (strong) IBOutlet SFSketchView *sketchView;
 
+@property (assign) IBOutlet UIButton *penToolButton;
+@property (assign) IBOutlet UIButton *markerToolButton;
+@property (assign) IBOutlet UIButton *eraserToolButton;
+
+@property (assign) IBOutlet UIView *colorPaletteView;
+
+
 @end
 

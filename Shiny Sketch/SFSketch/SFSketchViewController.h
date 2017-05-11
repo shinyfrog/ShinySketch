@@ -18,8 +18,14 @@
 @property (assign) IBOutlet UIButton *markerToolButton;
 @property (assign) IBOutlet UIButton *eraserToolButton;
 
-@property (assign) IBOutlet UIView *colorPaletteView;
+@property (assign) IBOutlet UIButton *smallPointButton;
+@property (assign) IBOutlet UIButton *mediumPointButton;
+@property (assign) IBOutlet UIButton *bigPointButton;
 
+@property (assign) IBOutlet UIButton *paletteToggleButton;
+
+@property (assign) IBOutlet UIScrollView *colorPaletteView;
+@property (assign) IBOutlet UIView *pointPickerView;
 
 @end
 

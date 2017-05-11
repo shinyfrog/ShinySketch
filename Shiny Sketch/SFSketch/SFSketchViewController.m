@@ -18,9 +18,21 @@
 #define kToolPointColor  [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0]
 #define kToolFillColor   [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
 
+typedef NS_ENUM(NSInteger, SFSketchPointSize)
+{
+    SFSketchPointSizeSmall,
+    SFSketchPointSizeMedium,
+    SFSketchPointSizeLarge,
+};
+
 @interface SFSketchViewController ()
 
 @property (strong) NSArray *availableColors;
+
+@property (strong) UIColor *currentColor;
+@property (nonatomic) SFSketchPointSize currentPointSize;
+
+@property (nonatomic) BOOL paletteClosed;
 
 @end
 
@@ -30,20 +42,29 @@
 {
     [super viewDidLoad];
     
+    self.paletteClosed = YES;
+    
     [self.view setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0]];
     
     CGSize size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
     [self newDrawCanvasWithSize:size];
     
-    [self usePenTool:self];
-    
-    self.scrollView.minimumZoomScale=1.0;
-    self.scrollView.maximumZoomScale=6.0;
-    self.scrollView.contentSize=size;
-    self.scrollView.panGestureRecognizer.minimumNumberOfTouches = 2;
-    
-    [self updateToolIcons];
+    self.currentColor = [UIColor blackColor];
+    self.currentPointSize = SFSketchPointSizeSmall;
+
+    [self setupCanvasScrollViewWithSize:size];
     [self setupColorPalette];
+
+    [self usePenTool:self];
+    [self updatePointPickerIcons];
+    [self updatePaletteToggleIcon];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    CGPoint bottomOffset = CGPointMake(0, self.colorPaletteView.contentSize.height - self.colorPaletteView.bounds.size.height);
+    [self.colorPaletteView setContentOffset:bottomOffset animated:NO];
+
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -87,6 +108,55 @@
     }];
 }
 
+#pragma mark - Setups
+
+- (void) setupCanvasScrollViewWithSize: (CGSize) size
+{
+    self.scrollView.minimumZoomScale=1.0;
+    self.scrollView.maximumZoomScale=6.0;
+    self.scrollView.contentSize=size;
+    self.scrollView.panGestureRecognizer.minimumNumberOfTouches = 2;
+}
+
+- (void) setupColorPalette
+{
+    self.availableColors = @[
+                             [UIColor colorWithRed:0.86 green:0.32 blue:0.32 alpha:1.0],
+                             [UIColor colorWithRed:0.95 green:0.60 blue:0.24 alpha:1.0],
+                             [UIColor colorWithRed:1.00 green:0.83 blue:0.21 alpha:1.0],
+                             [UIColor colorWithRed:0.36 green:0.78 blue:0.50 alpha:1.0],
+                             [UIColor colorWithRed:0.38 green:0.68 blue:0.93 alpha:1.0],
+                             [UIColor colorWithRed:0.18 green:0.31 blue:0.65 alpha:1.0],
+                             [UIColor colorWithRed:0.69 green:0.45 blue:0.80 alpha:1.0],
+                             [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0],
+                             [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0],
+                             [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1.0],
+                             [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0],
+                             ];
+    
+    CGFloat buttonSize = 40;
+    CGFloat buttonSpacing = 10;
+    __block CGFloat yOffset = 0;
+    [self.availableColors enumerateObjectsUsingBlock:^(UIColor *color, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, yOffset, buttonSize, buttonSize)];
+        [button addTarget:self action:@selector(colorButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self.colorPaletteView addSubview:button];
+        [button setTag:idx];
+        UIImage *image = [SFSketchIconsKit imageOfColorToolWithSize:CGSizeMake(buttonSize, buttonSize) toolFillColor:color toolStrokeColor:[kToolStrokeColor colorWithAlphaComponent:0.3]];
+        
+        [button setImage:image forState:UIControlStateNormal];
+        button.contentMode = UIViewContentModeScaleToFill;
+        
+        yOffset += buttonSize + buttonSpacing;
+    }];
+    
+    [self.colorPaletteView setContentSize:CGSizeMake(40, yOffset)];
+    [self.colorPaletteView setContentInset:UIEdgeInsetsMake(buttonSpacing, 0, 0, 0)];
+}
+
+
+
 - (void)newDrawCanvasWithSize:(CGSize)size
 {
     [self.sketchView removeFromSuperview];
@@ -101,16 +171,37 @@
     [superView addSubview:self.sketchView];
 }
 
-#pragma mark - UIScrollViewDelegate
+#pragma mark - UI
 
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+- (UIButton *) buttonForTool: (id <SFSketchTool>) tool
 {
-    [(SFSketchScrollView *)self.scrollView centerContent];
+    if ([tool isKindOfClass:[SFSketchPenTool class]]) {
+        return self.penToolButton;
+    }
+    else if ([tool isKindOfClass:[SFSketchHighligherTool class]]) {
+        return self.markerToolButton;
+    }
+    else {
+        return self.eraserToolButton;
+    }
 }
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+- (UIButton *) buttonForPointSize: (SFSketchPointSize) pointSize
 {
-    return self.sketchView;
+    switch (pointSize) {
+        case SFSketchPointSizeSmall:
+            return self.smallPointButton;
+            break;
+        case SFSketchPointSizeMedium:
+            return self.mediumPointButton;
+            break;
+        case SFSketchPointSizeLarge:
+            return self.bigPointButton;
+            break;
+        default:
+            return nil;
+            break;
+    }
 }
 
 #pragma mark - Actions
@@ -125,114 +216,256 @@
     [self.sketchView setNeedsDisplayInRect:self.sketchView.bounds];
 }
 
-- (IBAction)increaseTipSize:(id)sender
+#pragma mark - Palette handling
+
+- (IBAction)togglePalette:(id)sender
 {
-    SFSketchPenTool *tool = self.sketchView.currentTool;
-    tool.tipSize++;
+    self.paletteClosed = !self.paletteClosed;
+    
+    [self.colorPaletteView setHidden:self.paletteClosed];
+    [self.pointPickerView setHidden:self.paletteClosed];
+
+    [self updatePaletteToggleIcon];
 }
 
-- (IBAction)decreaseTipSize:(id)sender
+
+#pragma mark - Points
+
+- (IBAction)setSmallPointSize:(id)sender
 {
-    SFSketchPenTool *tool = self.sketchView.currentTool;
-    if (tool.tipSize > 2) {
-        tool.tipSize--;
-    }
+    [self setPointSize:SFSketchPointSizeSmall];
+    [self updatePointPickerIcons];
+    [self updatePaletteToggleIcon];
 }
+
+- (IBAction)setMediumPointSize:(id)sender
+{
+    [self setPointSize:SFSketchPointSizeMedium];
+    [self updatePointPickerIcons];
+    [self updatePaletteToggleIcon];
+}
+
+- (IBAction)setLargePointSize:(id)sender
+{
+    [self setPointSize:SFSketchPointSizeLarge];
+    [self updatePointPickerIcons];
+    [self updatePaletteToggleIcon];
+}
+
+- (void) setPointSize: (SFSketchPointSize) pointSize
+{
+    self.currentPointSize = pointSize;
+    self.currentTool.tipSize = [self pixelSizeForPointSize:pointSize tool:self.currentTool];
+}
+
+- (CGFloat) pixelSizeForPointSize: (SFSketchPointSize) pointSize tool: (id <SFSketchTool>) tool
+{
+    switch (pointSize) {
+        case SFSketchPointSizeSmall:
+            if ([tool isKindOfClass:[SFSketchPenTool class]]) { return 0.8; }
+            else { return  20; }
+            break;
+        case SFSketchPointSizeMedium:
+            if ([tool isKindOfClass:[SFSketchPenTool class]]) { return 3; }
+            else { return  30; }
+            break;
+        case SFSketchPointSizeLarge:
+            if ([tool isKindOfClass:[SFSketchPenTool class]]) { return 10; }
+            else { return  40; }
+            break;
+        default:
+            break;
+    }
+    
+    return 1;
+}
+
+
+#pragma mark - Tools
 
 - (IBAction)usePenTool:(id)sender
 {
     SFSketchPenTool *tool = [SFSketchPenTool new];
-    self.sketchView.currentTool = tool;
+    [self setCurrentTool:tool];
+    [self updateToolIcons];
 }
 
 - (IBAction)useHighlighterTool:(id)sender
 {
     SFSketchHighligherTool *tool = [SFSketchHighligherTool new];
-    self.sketchView.currentTool = tool;
+    [self setCurrentTool:tool];
+    [self updateToolIcons];
 }
 
 
 - (IBAction)useEraserTool:(id)sender
 {
     SFSketchEraserTool *tool = [SFSketchEraserTool new];
+    [self setCurrentTool:tool];
+    [self updateToolIcons];
+}
+
+
+- (id <SFSketchTool>) currentTool
+{
+    return self.sketchView.currentTool;
+}
+
+- (void) setCurrentTool: (id <SFSketchTool>) tool
+{
+    tool.color = self.currentColor;
+    tool.tipSize =  [self pixelSizeForPointSize:self.currentPointSize tool:tool];
     self.sketchView.currentTool = tool;
 }
 
-- (IBAction)greenColor:(id)sender
+#pragma mark - Colors
+
+- (IBAction)colorButtonTapped:(id)sender
 {
-    self.sketchView.currentTool.color = [UIColor colorWithRed:0.271 green:0.914 blue:0.678 alpha:1];
+    UIButton *button = sender;
+    button.transform = CGAffineTransformMakeScale(0.85f, 0.85f);
+    [UIView animateWithDuration:0.2f animations:^{
+        button.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+    }completion:nil];
+
+    
+    UIColor *color = [self.availableColors objectAtIndex:[sender tag]];
+    [self setPointColor:color];
+    
+    [self updateToolIcons];
+    [self updatePointPickerIcons];
+    [self updatePaletteToggleIcon];
 }
 
-- (IBAction)redColor:(id)sender
+- (void) setPointColor: (UIColor *) pointColor
 {
-    self.sketchView.currentTool.color = [UIColor colorWithRed:0.771 green:0.314 blue:0.378 alpha:1];
+    self.currentColor = pointColor;
+    self.currentTool.color = pointColor;
 }
 
 #pragma mark - Icons
 
 - (void) updateToolIcons
 {
-    [self setPenToolIconWithTipColor:nil];
-    [self setMarkerToolIconWithTipColor:nil];
-    [self setEraserToolIconWithTipColor:nil];
-}
-
-- (void) setPenToolIconWithTipColor: (UIColor *) tipColor
-{
+    UIButton *currentToolButton = [self buttonForTool:self.currentTool];
     
-    UIImage *image = [SFSketchIconsKit imageOfPenToolWithToolFillColor:kToolFillColor pointFillColor:kToolPointColor toolStrokeColor:kToolStrokeColor];
-    [self.penToolButton setImage:image forState:UIControlStateNormal];
-}
+    // Pen
+    {
+        BOOL selected = self.penToolButton == currentToolButton;
+        UIImage *image = [SFSketchIconsKit imageOfPenToolWithToolFillColor:kToolFillColor
+                                                            pointFillColor: selected ? self.currentColor : kToolPointColor
+                                                           toolStrokeColor:kToolStrokeColor];
+        [self.penToolButton setImage:image forState:UIControlStateNormal];
+        
+        [UIView animateWithDuration:0.20 animations:^{
+            CGRect newFrame = self.penToolButton.frame;
+            newFrame.origin.y = selected ? 20 : 40;
+            self.penToolButton.frame = newFrame;
+        }];
+    }
 
-- (void) setMarkerToolIconWithTipColor: (UIColor *) tipColor
-{
-    UIImage *image = [SFSketchIconsKit imageOfMarkerToolWithToolFillColor:kToolFillColor pointFillColor:kToolPointColor toolStrokeColor:kToolStrokeColor];
-    [self.markerToolButton setImage:image forState:UIControlStateNormal];
-}
-
-- (void) setEraserToolIconWithTipColor: (UIColor *) tipColor
-{
-    UIImage *image = [SFSketchIconsKit imageOfEraserToolWithToolFillColor:kToolFillColor pointFillColor:kToolPointColor toolStrokeColor:kToolStrokeColor];
-    [self.eraserToolButton setImage:image forState:UIControlStateNormal];
-}
-
-#pragma mark - Colors
-
-- (void) setupColorPalette
-{
-    self.availableColors = @[
-                             [UIColor colorWithRed:1.00 green:1.00 blue:1.00 alpha:1.0],
-                             [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1.0],
-                             [UIColor colorWithRed:0.33 green:0.33 blue:0.33 alpha:1.0],
-                             [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0],
-                             [UIColor colorWithRed:0.69 green:0.45 blue:0.80 alpha:1.0],
-                             [UIColor colorWithRed:0.18 green:0.31 blue:0.65 alpha:1.0],
-                             [UIColor colorWithRed:0.38 green:0.68 blue:0.93 alpha:1.0],
-                             [UIColor colorWithRed:0.36 green:0.78 blue:0.50 alpha:1.0],
-                             [UIColor colorWithRed:1.00 green:0.83 blue:0.21 alpha:1.0],
-                             [UIColor colorWithRed:0.95 green:0.60 blue:0.24 alpha:1.0],
-                             [UIColor colorWithRed:0.86 green:0.32 blue:0.32 alpha:1.0],
-                             ];
+    // Marker
+    {
+        BOOL selected = self.markerToolButton == currentToolButton;
+        UIImage *image = [SFSketchIconsKit imageOfMarkerToolWithToolFillColor:kToolFillColor
+                                                               pointFillColor:selected ? self.currentColor : kToolPointColor
+                                                              toolStrokeColor:kToolStrokeColor];
+        [self.markerToolButton setImage:image forState:UIControlStateNormal];
+        
+        [UIView animateWithDuration:0.20 animations:^{
+            CGRect newFrame = self.markerToolButton.frame;
+            newFrame.origin.y = selected ? 20 : 40;
+            self.markerToolButton.frame = newFrame;
+        }];
+    }
     
-    __block CGFloat yOffset = CGRectGetMaxY(self.colorPaletteView.bounds) - 40;
-    [self.availableColors enumerateObjectsUsingBlock:^(UIColor *color, NSUInteger idx, BOOL * _Nonnull stop) {
+    // Eraser
+    {
+        BOOL selected = self.eraserToolButton == currentToolButton;
+        UIImage *image = [SFSketchIconsKit imageOfEraserToolWithToolFillColor:kToolFillColor
+                                                               pointFillColor:kToolPointColor
+                                                              toolStrokeColor:kToolStrokeColor];
+        [self.eraserToolButton setImage:image forState:UIControlStateNormal];
         
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, yOffset, 40, 40)];
-        [button addTarget:self action:@selector(colorButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self.colorPaletteView  addSubview:button];
-        [button setTag:idx];
-        UIImage *image = [SFSketchIconsKit imageOfColorToolWithSize:CGSizeMake(40, 40) toolFillColor:color toolStrokeColor:[kToolStrokeColor colorWithAlphaComponent:0.3]];
-        
-        [button setImage:image forState:UIControlStateNormal];
-        
-        yOffset -= 50;
-    }];
+        [UIView animateWithDuration:0.20 animations:^{
+            CGRect newFrame = self.eraserToolButton.frame;
+            newFrame.origin.y = selected ? 15 : 40;
+            self.eraserToolButton.frame = newFrame;
+        }];
+
+    }
 }
 
-- (IBAction)colorButtonTapped:(id)sender
+- (CGRect) iconPointRectForPointSize: (SFSketchPointSize) pointSize
 {
-    self.sketchView.currentTool.color = [self.availableColors objectAtIndex:[sender tag]];
+    switch (pointSize) {
+        case SFSketchPointSizeSmall:
+            return CGRectMake(16.5, 16.5, 7.5, 7.5);
+            break;
+        case SFSketchPointSizeMedium:
+            return CGRectMake(12, 12, 16.5, 16.5);
+            break;
+        case SFSketchPointSizeLarge:
+            return CGRectMake(8, 8, 24.5, 24.5);
+            break;
+        default:
+            break;
+    }
+    
+    return CGRectZero;
 }
+
+- (void) updatePointPickerIcons
+{
+    CGSize buttonSize = CGSizeMake(40, 40);
+    
+    UIButton *currentPointButton = [self buttonForPointSize:self.currentPointSize];
+    
+    UIImage *smallPointIcon = [SFSketchIconsKit imageOfPointToolWithSize:buttonSize
+                                                           toolFillColor:kToolFillColor
+                                                          pointFillColor:self.smallPointButton == currentPointButton ? self.currentColor : kToolStrokeColor
+                                                         toolStrokeColor:kToolStrokeColor
+                                                               pointRect:[self iconPointRectForPointSize:SFSketchPointSizeSmall]];
+    [self.smallPointButton setImage:smallPointIcon forState:UIControlStateNormal];
+    
+    
+    UIImage *mediumPointIcon = [SFSketchIconsKit imageOfPointToolWithSize:buttonSize
+                                                            toolFillColor:kToolFillColor
+                                                           pointFillColor:self.mediumPointButton == currentPointButton ? self.currentColor : kToolStrokeColor
+                                                          toolStrokeColor:kToolStrokeColor
+                                                                pointRect:[self iconPointRectForPointSize:SFSketchPointSizeMedium]];
+    [self.mediumPointButton setImage:mediumPointIcon forState:UIControlStateNormal];
+    
+    
+    UIImage *bigPointIcon = [SFSketchIconsKit imageOfPointToolWithSize:buttonSize
+                                                         toolFillColor:kToolFillColor
+                                                        pointFillColor:self.bigPointButton == currentPointButton ? self.currentColor : kToolStrokeColor
+                                                       toolStrokeColor:kToolStrokeColor
+                                                             pointRect:[self iconPointRectForPointSize:SFSketchPointSizeLarge]];
+    [self.bigPointButton setImage:bigPointIcon forState:UIControlStateNormal];
+    
+}
+
+- (void) updatePaletteToggleIcon
+{
+    CGSize buttonSize = CGSizeMake(40, 40);
+
+    UIImage *icon;
+    
+    if (self.paletteClosed) {
+        icon = [SFSketchIconsKit imageOfPointToolWithSize:buttonSize
+                                            toolFillColor:kToolFillColor
+                                           pointFillColor:self.currentColor
+                                          toolStrokeColor:kToolStrokeColor
+                                                pointRect:[self iconPointRectForPointSize:self.currentPointSize]];
+    }
+    else {
+        icon = [SFSketchIconsKit imageOfCloseIconWithToolStrokeColor:kToolStrokeColor];
+    }
+    
+    [self.paletteToggleButton setImage:icon forState:UIControlStateNormal];
+}
+
 
 #pragma mark - Undo / Redo
 
@@ -246,5 +479,16 @@
     [self.sketchView redo:sender];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    [(SFSketchScrollView *)self.scrollView centerContent];
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return self.sketchView;
+}
 
 @end

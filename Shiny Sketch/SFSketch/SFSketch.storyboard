@@ -33,21 +33,21 @@
                                 <rect key="frame" x="0.0" y="643" width="525" height="125"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="top" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hRn-bo-GlE">
-                                        <rect key="frame" x="38" y="28" width="60" height="196"/>
+                                        <rect key="frame" x="38" y="40" width="60" height="196"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="usePenTool:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="pbP-p1-vo6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="top" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gIl-2T-31h">
-                                        <rect key="frame" x="97" y="28" width="60" height="196"/>
+                                        <rect key="frame" x="97" y="40" width="60" height="196"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="useHighlighterTool:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="e7d-y4-uuL"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="top" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5x5-Sf-jtq">
-                                        <rect key="frame" x="156" y="28" width="60" height="196"/>
+                                        <rect key="frame" x="156" y="40" width="60" height="196"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="useEraserTool:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="y3Q-xa-Lan"/>
@@ -59,53 +59,73 @@
                                     <constraint firstAttribute="height" constant="125" id="KiE-7X-GBW"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ylD-FI-csn">
-                                <rect key="frame" x="964" y="151" width="40" height="558"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="22k-bM-UGC">
+                                <rect key="frame" x="799" y="708" width="150" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYl-A2-beJ">
+                                        <rect key="frame" x="10" y="0.0" width="40" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="setSmallPointSize:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="rtZ-by-t85"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8x-7Z-XTp">
+                                        <rect key="frame" x="60" y="0.0" width="40" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="setMediumPointSize:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="jcC-vb-KT0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKU-V2-IPD">
+                                        <rect key="frame" x="110" y="0.0" width="40" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="setLargePointSize:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="JTP-Q4-T0H"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="vSb-h3-Qbt"/>
+                                    <constraint firstAttribute="height" constant="40" id="KIf-5U-f5N"/>
+                                    <constraint firstAttribute="width" constant="150" id="XHn-yB-j86"/>
                                 </constraints>
                             </view>
+                            <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxy-g2-vja">
+                                <rect key="frame" x="964" y="153" width="60" height="550"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="0bS-9c-jcX"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="550" id="FeL-BZ-oJY"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Or-xR-eg7">
+                                <rect key="frame" x="964" y="708" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="4td-lK-zR2"/>
+                                    <constraint firstAttribute="height" constant="40" id="GLg-rV-eEg"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="togglePalette:" destination="rjY-Rh-yUg" eventType="touchUpInside" id="pj9-xJ-h3N"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Kfu-pV-7dI" secondAttribute="trailing" id="4Bv-EU-A1q"/>
-                            <constraint firstItem="ylD-FI-csn" firstAttribute="top" secondItem="7lR-jW-emX" secondAttribute="bottom" constant="107" id="DUj-ie-t45"/>
+                            <constraint firstItem="jeo-f3-2fo" firstAttribute="top" secondItem="nxy-g2-vja" secondAttribute="bottom" constant="65" id="5Sq-AD-poy"/>
                             <constraint firstItem="jeo-f3-2fo" firstAttribute="top" secondItem="Jzu-BZ-pDw" secondAttribute="bottom" id="I1i-00-GSo"/>
                             <constraint firstItem="Kfu-pV-7dI" firstAttribute="leading" secondItem="s12-cs-zyc" secondAttribute="leading" id="R3C-T2-IOt"/>
                             <constraint firstItem="Jzu-BZ-pDw" firstAttribute="leading" secondItem="s12-cs-zyc" secondAttribute="leadingMargin" constant="-20" id="aeo-nK-aPR"/>
+                            <constraint firstItem="nxy-g2-vja" firstAttribute="top" secondItem="7lR-jW-emX" secondAttribute="bottom" priority="750" constant="109" id="dns-lc-s2e"/>
+                            <constraint firstItem="jeo-f3-2fo" firstAttribute="top" secondItem="9Or-xR-eg7" secondAttribute="bottom" constant="20" id="fmb-Ko-ESt"/>
+                            <constraint firstItem="9Or-xR-eg7" firstAttribute="trailing" secondItem="s12-cs-zyc" secondAttribute="trailingMargin" id="ggc-Ui-kTE"/>
                             <constraint firstAttribute="bottom" secondItem="Kfu-pV-7dI" secondAttribute="bottom" id="jRI-I8-Tx6"/>
+                            <constraint firstItem="jeo-f3-2fo" firstAttribute="top" secondItem="22k-bM-UGC" secondAttribute="bottom" constant="20" id="n6z-GV-t8b"/>
+                            <constraint firstItem="nxy-g2-vja" firstAttribute="trailing" secondItem="s12-cs-zyc" secondAttribute="trailingMargin" constant="20" id="nUM-tm-UOK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="22k-bM-UGC" secondAttribute="trailing" constant="55" id="pHc-2F-5l7"/>
                             <constraint firstItem="Kfu-pV-7dI" firstAttribute="top" secondItem="s12-cs-zyc" secondAttribute="top" id="pIp-kS-RD3"/>
-                            <constraint firstItem="jeo-f3-2fo" firstAttribute="top" secondItem="ylD-FI-csn" secondAttribute="bottom" constant="59" id="rlg-bd-GKs"/>
-                            <constraint firstItem="ylD-FI-csn" firstAttribute="trailing" secondItem="s12-cs-zyc" secondAttribute="trailingMargin" id="veg-TJ-v8H"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Drawy" id="dNe-Wu-1sj">
                         <leftBarButtonItems>
-                            <barButtonItem title="  -  " id="gWk-nA-cqH">
-                                <connections>
-                                    <action selector="decreaseTipSize:" destination="rjY-Rh-yUg" id="3fg-xG-f5M"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="  +  " id="jhy-C1-44o">
-                                <connections>
-                                    <action selector="increaseTipSize:" destination="rjY-Rh-yUg" id="6HX-yO-uu4"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Pen" id="Zxb-pI-ewi">
-                                <connections>
-                                    <action selector="usePenTool:" destination="rjY-Rh-yUg" id="T44-pN-WYf"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Hig" id="6jR-86-JFz">
-                                <connections>
-                                    <action selector="useHighlighterTool:" destination="rjY-Rh-yUg" id="fsN-Zk-RTI"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Era" id="k6K-jf-0xu">
-                                <connections>
-                                    <action selector="useEraserTool:" destination="rjY-Rh-yUg" id="F8a-Cd-JF9"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem title="Undo" id="K6z-rt-jC5">
                                 <connections>
                                     <action selector="undo:" destination="rjY-Rh-yUg" id="yvh-Q7-Umt"/>
@@ -128,26 +148,21 @@
                                     <action selector="redraw:" destination="rjY-Rh-yUg" id="eV3-24-894"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="red" id="dJ2-aa-Zd2">
-                                <connections>
-                                    <action selector="redColor:" destination="rjY-Rh-yUg" id="yeg-lK-sbT"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="green" id="YU1-9x-Nzx">
-                                <connections>
-                                    <action selector="greenColor:" destination="rjY-Rh-yUg" id="pLJ-Ky-ORr"/>
-                                </connections>
-                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="colorPaletteView" destination="ylD-FI-csn" id="Bqd-3n-3tS"/>
+                        <outlet property="bigPointButton" destination="bKU-V2-IPD" id="gcw-Hz-EEL"/>
+                        <outlet property="colorPaletteView" destination="nxy-g2-vja" id="F88-CF-itb"/>
                         <outlet property="eraserToolButton" destination="5x5-Sf-jtq" id="OMo-sh-RNz"/>
                         <outlet property="markerToolButton" destination="gIl-2T-31h" id="1Wz-zp-ybj"/>
+                        <outlet property="mediumPointButton" destination="T8x-7Z-XTp" id="Dt9-mo-Qxy"/>
+                        <outlet property="paletteToggleButton" destination="9Or-xR-eg7" id="yNf-Ya-Wv6"/>
                         <outlet property="penToolButton" destination="hRn-bo-GlE" id="1st-kn-XLt"/>
+                        <outlet property="pointPickerView" destination="22k-bM-UGC" id="E4w-uR-ZaC"/>
                         <outlet property="scrollView" destination="Kfu-pV-7dI" id="5PD-g1-9ie"/>
+                        <outlet property="smallPointButton" destination="pYl-A2-beJ" id="llC-vg-aJZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kTE-wu-yzb" userLabel="First Responder" sceneMemberID="firstResponder"/>

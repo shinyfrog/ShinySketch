@@ -14,6 +14,7 @@
 @protocol SFSketchTool <NSObject>
 
 @property (copy) UIColor *color;
+@property (nonatomic) CGFloat tipSize;
 
 - (CGRect) boundsForLine: (SFSketchLine *) line;
 - (CGRect) boundsForLastLineSegmnet: (SFSketchLine *) line;

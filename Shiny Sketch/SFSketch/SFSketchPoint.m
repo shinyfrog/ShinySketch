@@ -21,10 +21,15 @@
         UIView *view = touch.view;
         _type = type;
         _location = [touch locationInView:view];
-        _preciseLocation = [touch preciseLocationInView:view];
+        _preciseLocation = _location;
         _force = (touch.type == UITouchTypeStylus || touch.force > 0) ? touch.force : 1;
-        _altitudeAngle = touch.altitudeAngle;
-        _azimuthAngle = [touch azimuthAngleInView:view];
+        
+        // iOS 9.1+
+        if ([touch respondsToSelector:@selector(preciseLocationInView:)]) {
+            _preciseLocation = [touch preciseLocationInView:view];
+            _altitudeAngle = touch.altitudeAngle;
+            _azimuthAngle = [touch azimuthAngleInView:view];
+        }
     }
     return self;
 }

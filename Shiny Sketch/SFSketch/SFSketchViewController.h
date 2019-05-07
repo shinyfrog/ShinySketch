@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "SFSketchView.h"
 
+@protocol SFSketchViewControllerDelegate;
+
 @interface SFSketchViewController : UIViewController
+
+@property (weak) id <SFSketchViewControllerDelegate> delegate;
+
+@property (strong) IBOutlet UIButton *backButton;
+@property (strong) IBOutlet UIButton *undoButton;
+@property (strong) IBOutlet UIButton *redoButton;
+@property (strong) IBOutlet UIButton *shareButton;
 
 @property (strong) IBOutlet UIScrollView *scrollView;
 @property (strong) IBOutlet SFSketchView *sketchView;
@@ -25,7 +34,19 @@
 @property (assign) IBOutlet UIButton *paletteToggleButton;
 
 @property (assign) IBOutlet UIScrollView *colorPaletteView;
+@property (assign) IBOutlet UIView *colorSeparatorView;
+
 @property (assign) IBOutlet UIView *pointPickerView;
+@property (assign) IBOutlet UIView *toolPickerView;
+
+- (void) setInitialImage: (UIImage *) image;
+- (UIImage *)currentImage;
 
 @end
 
+@protocol SFSketchViewControllerDelegate <NSObject>
+
+@optional
+- (void) sketchViewController: (SFSketchViewController *) sketchViewController didFinishSketching: (UIImage *) image;
+
+@end

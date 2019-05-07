@@ -43,6 +43,11 @@
     return CGRectInset(boundsForLastLineSegmnet, -self.tipSize * 4.0 * 4.0, -self.tipSize * 4.0 * 4.0);
 }
 
+- (void)drawPoints:(NSArray *)points inContext:(CGContextRef)context {
+    
+}
+
+
 - (CGFloat) tipSizeForPoint: (SFSketchPoint *) point
 {
     CGFloat tipSize = self.tipSize;

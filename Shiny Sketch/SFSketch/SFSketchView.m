@@ -12,14 +12,14 @@
 
 @interface SFSketchView ()
 
-@property (nonatomic) CGImageRef image;
-
 @property (strong) NSMutableArray *strokes;
 @property (strong) SFSketchStroke *currentStroke;
+@property (nonatomic) CGImageRef image;
+@property (nonatomic) CGImageRef initialImage;
+
 
 @property (nonatomic) CGContextRef currentBitmapContext;
 
-@property (strong) NSUndoManager *sketchUndoManager;
 
 @end
 
@@ -49,6 +49,8 @@
     self.initialSize = self.bounds.size;
     
     self.sketchUndoManager = [NSUndoManager new];
+    
+    self.imageChanged = NO;
 }
 
 - (void) scaleViewForNewSize:(CGSize)size
@@ -70,6 +72,10 @@
 - (CGContextRef)bitmapContext
 {
     CGFloat scale = self.window.screen.scale;
+    if (!scale) {
+        scale = [[UIScreen mainScreen] scale];
+    }
+    
     CGSize size = self.initialSize;
     size.width *= scale; size.height *= scale;
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -101,6 +107,43 @@
     _image = image;
 }
 
+- (void) setInitialImage:(CGImageRef)image
+{
+    if (self.initialImage) {
+        CGImageRelease(self.initialImage);
+    }
+    
+    if (image) {
+        CGContextRef bitmapContext = [self bitmapContext];
+        CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, self.initialSize.height);
+        CGContextConcatCTM(bitmapContext, flipVertical);
+        
+        CGContextDrawImage(bitmapContext, CGRectMake(0, 0, self.initialSize.width, self.initialSize.height), image);
+        CGImageRef flippedImage =  CGBitmapContextCreateImage(bitmapContext);
+        
+        _initialImage = flippedImage;
+        self.image = CGImageCreateCopy(flippedImage);
+        CGContextRelease(bitmapContext);
+    }
+}
+
+- (UIImage *) bitmapImage
+{
+    CGContextRef bitmapContext = [self bitmapContext];
+    CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, self.initialSize.height);
+    CGContextConcatCTM(bitmapContext, flipVertical);
+
+    CGContextDrawImage(bitmapContext, CGRectMake(0, 0, self.initialSize.width, self.initialSize.height), self.image);
+    
+    CGImageRef flippedImage =  CGBitmapContextCreateImage(bitmapContext);
+    
+    UIImage *image = [UIImage imageWithCGImage:flippedImage scale:self.window.screen.scale orientation:UIImageOrientationUp];
+    
+    CGContextRelease(bitmapContext);
+    CGImageRelease(flippedImage);
+    
+    return image;
+}
 
 #pragma mark - Clear
 
@@ -195,10 +238,16 @@
     
     self.image = CGBitmapContextCreateImage(self.currentBitmapContext);
     
-    [[self.sketchUndoManager prepareWithInvocationTarget:self] removeStrokesAndRedraw:@[self.currentStroke]];
+    if (self.currentStroke) {
+        [[self.sketchUndoManager prepareWithInvocationTarget:self] removeStrokesAndRedraw:@[self.currentStroke]];
+    }
     
     self.currentStroke = nil;
     self.currentBitmapContext = nil;
+
+    self.imageChanged = YES;
+
+    [self.delegate sketchView:self touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -219,6 +268,11 @@
 - (CGImageRef) imageFromStrokes: (NSArray *) strokes
 {
     CGContextRef context = [self bitmapContext];
+    
+    if (self.initialImage) {
+        CGContextDrawImage(context, self.bounds, self.initialImage);
+    }
+    
     for (SFSketchStroke *stroke in strokes) {
         [stroke drawInContext:context];
     }
